@@ -27,9 +27,7 @@ app.get('/api/bug', async (req, res) => {
 })
 
 app.get('/api/bug/save', async (req, res) => {
-
     const bugs = await bugService.save(req.query)    
-
     res.send(bugs)
 })
 

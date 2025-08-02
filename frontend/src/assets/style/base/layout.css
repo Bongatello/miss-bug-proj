@@ -1,18 +1,23 @@
 .main-layout {
     display: grid;
-    grid-template-columns: 1.6rem 1fr 1.6rem;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: '_header'
+    '_main'
+    'footer';
 }
 
-.main-layout > * {
-    grid-column: 2;
+.main-layout {
+    grid-area: _main;
+    display: flex;
+    flex-direction: column;
 }
 
-.main-layout .full {
-    grid-column: 1/-1;
+.header {
+    grid-area: _header;
 }
 
-.container {
-    max-width: 800px;
-    padding: 1em;
-    margin: auto;
+.footer {
+    grid-area: _footer;
 }
+
+

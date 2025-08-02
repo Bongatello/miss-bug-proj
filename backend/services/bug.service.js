@@ -34,14 +34,15 @@ async function remove(bugId) {
 }
 
 async function save(queryObject){
-    const { _id, title, severity } = queryObject
-    const bugToSave = { _id, title, severity: +severity }
-
+    const { _id, title, severity, desc } = queryObject
+    const bugToSave = { _id, title, severity: +severity, desc }
     if (bugToSave._id) {
+        
         const bug = bugs.find(bug => bug._id === bugToSave._id)
         
         if (bugToSave.title) bug.title = bugToSave.title    //in case title wasnt passed, the api would not overwrite the title with a blank field
         if (bugToSave.severity) bug.severity = bugToSave.severity   //same as title but with severity
+        if (bugToSave.desc) bug.desc = bugToSave.desc   //same as title but with desc
 
         return _saveBugs()
     }

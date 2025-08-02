@@ -8,7 +8,7 @@ export function AppFooter () {
     }, [])
 
     return (
-        <footer>
+        <footer className='footer'>
             <p>
                 coffeerights to all
             </p>

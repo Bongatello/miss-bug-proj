@@ -9,6 +9,7 @@ var axios = Axios.create({
 })
 
 const STORAGE_KEY = 'bugDB'
+const BASE_URL = '//localhost:3030/api/bug'
 
 export const bugService = {
     query,
@@ -18,19 +19,32 @@ export const bugService = {
 }
 
 
-function query() {
-    return storageService.query(STORAGE_KEY)
+async function query() {
+    var { data: bugs } = await axios.get(BASE_URL)
+    
+    return bugs
 }
-function getById(bugId) {
-    return storageService.get(STORAGE_KEY, bugId)
+async function getById(bugId) {
+    const res = await axios.get(BASE_URL + '/' + bugId)
+    return res.data
 }
-function remove(bugId) {
-    return storageService.remove(STORAGE_KEY, bugId)
+async function remove(bugId) {
+    const res = await axios.get(BASE_URL + '/' + bugId + '/remove')
+    return res.data
 }
-function save(bug) {
+async function save(bug) {
     if (bug._id) {
-        return storageService.put(STORAGE_KEY, bug)
-    } else {
-        return storageService.post(STORAGE_KEY, bug)
+        console.log('my existing bug id is' + bug._id)
+        console.log(BASE_URL + '/save?_id=' + bug._id + '&title=' + bug.title + '&severity=' + bug.severity + '&desc=' + bug.desc)
+
+        const res = await axios.get(BASE_URL + '/save?_id=' + bug._id + '&title=' + bug.title + '&severity=' + bug.severity + '&desc=' + bug.desc)
+        return res.data
+    } 
+    
+    else {
+        console.log('my new bug id is' + bug._id)
+        console.log(BASE_URL + '/save?title=' + bug.title + '&severity=' + bug.severity)
+        const res = await axios.get(BASE_URL + '/save?title=' + bug.title + '&severity=' + bug.severity + '&desc=' + bug.desc)
+        return res.data
     }
 }

@@ -10,7 +10,7 @@ export function BugIndex() {
 
   useEffect(() => {
     loadBugs()
-  }, [])
+  }, [bugs])
 
   async function loadBugs() {
     const bugs = await bugService.query()
@@ -33,6 +33,7 @@ export function BugIndex() {
     const bug = {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
+      desc: prompt('Bug description'),
     }
     try {
       const savedBug = await bugService.save(bug)
