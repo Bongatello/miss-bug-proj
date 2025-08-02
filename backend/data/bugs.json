@@ -7,9 +7,10 @@
   },
   {
     "_id": "vYWt4",
-    "title": "fresh bug",
-    "severity": 5,
-    "createdAt": 1754161398453
+    "title": "Fresher Bug",
+    "severity": 6,
+    "createdAt": 1754161398453,
+    "desc": "I was a fresh bug at the beginning!"
   },
   {
     "_id": "786M9",
@@ -48,5 +49,19 @@
     "severity": 2,
     "desc": "now does it work?",
     "createdAt": 1754167110894
+  },
+  {
+    "_id": "uopgg",
+    "title": "filter 4 up, but creating bug with sev 3, will it show?",
+    "severity": 3,
+    "desc": "hopefully not",
+    "createdAt": 1754170005520
+  },
+  {
+    "_id": "Oia1i",
+    "title": "new buggg",
+    "severity": 4,
+    "desc": "hello world",
+    "createdAt": 1754170167448
   }
 ]

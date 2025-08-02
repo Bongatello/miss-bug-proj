@@ -1,14 +1,10 @@
 
-import { storageService } from './async-storage.service.js'
-import { utilService } from './util.service.js'
-
 import Axios from 'axios'
 
 var axios = Axios.create({
     withCredentials: true,
 })
 
-const STORAGE_KEY = 'bugDB'
 const BASE_URL = '//localhost:3030/api/bug'
 
 export const bugService = {
@@ -19,19 +15,28 @@ export const bugService = {
 }
 
 
-async function query() {
+
+async function query(filterBy) {
     var { data: bugs } = await axios.get(BASE_URL)
-    
+
+    bugs = bugs.filter(bug => bug.severity>=filterBy)
+
     return bugs
 }
+
+
 async function getById(bugId) {
     const res = await axios.get(BASE_URL + '/' + bugId)
     return res.data
 }
+
+
 async function remove(bugId) {
     const res = await axios.get(BASE_URL + '/' + bugId + '/remove')
     return res.data
 }
+
+
 async function save(bug) {
     if (bug._id) {
         console.log('my existing bug id is' + bug._id)
