@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "abc123",
+    "title": "Cannot save a Car",
+    "severity": 3,
+    "createdAt": 1542107359454
+  },
+  {
+    "severity": 4,
+    "_id": "JxVnb",
+    "createdAt": 1754056030187,
+    "title": "newBug"
+  }
+]
