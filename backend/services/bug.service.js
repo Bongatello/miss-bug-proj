@@ -5,9 +5,10 @@ const bugs = readJsonFile('data/bugs.json')
 
 export const bugService = {
     showBugId,
-    save,
+    add,
     remove,
     showAllBugs,
+    edit,
 }
 
 async function showAllBugs() {
@@ -33,27 +34,35 @@ async function remove(bugId) {
 
 }
 
-async function save(queryObject){
+async function add(queryObject){
+    const { title, severity, desc } = queryObject
+    const bugToSave = { title, severity: +severity, desc }
+    console.log(bugToSave)
+
+    console.log('trying to add bug')
+    bugToSave._id = makeId()
+    bugToSave.createdAt = Date.now()
+    console.log('new bug ', bugToSave)
+    bugs.push(bugToSave)
+    console.log('bug was added')
+    return _saveBugs()
+
+}
+
+async function edit(queryObject){
     const { _id, title, severity, desc } = queryObject
     const bugToSave = { _id, title, severity: +severity, desc }
-    if (bugToSave._id) {
-        
-        const bug = bugs.find(bug => bug._id === bugToSave._id)
-        
-        if (bugToSave.title) bug.title = bugToSave.title    //in case title wasnt passed, the api would not overwrite the title with a blank field
-        if (bugToSave.severity) bug.severity = bugToSave.severity   //same as title but with severity
-        if (bugToSave.desc) bug.desc = bugToSave.desc   //same as title but with desc
+    console.log(bugToSave)
+    const bug = bugs.find(bug => bug._id === bugToSave._id)
 
-        return _saveBugs()
-    }
-
-    else {
-        bugToSave._id = makeId()
-        bugToSave.createdAt = Date.now()
-        bugs.push(bugToSave)
-        return _saveBugs()
-    }
+    console.log('trying to edit bug')
+    if (bugToSave.title) bug.title = bugToSave.title    //in case title wasnt passed, the api would not overwrite the title with a blank field
+    if (bugToSave.severity) bug.severity = bugToSave.severity   //same as title but with severity
+    if (bugToSave.desc) bug.desc = bugToSave.desc   //same as title but with desc
+    console.log('bug was edited')
+    return _saveBugs()
 }
+
 
 
 function _saveBugs() {

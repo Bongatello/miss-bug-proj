@@ -46,13 +46,13 @@ export function BugIndex() {
   }
 
   async function onAddBug() {
-    const bug = {
+    const bugToSave = {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
       desc: prompt('Bug description'),
     }
     try {
-      const savedBug = await bugService.save(bug)
+      const savedBug = await bugService.add(bugToSave)
       console.log('Added Bug', savedBug)
       setBugs(prevBugs => [...prevBugs, savedBug])
       showSuccessMsg('Bug added')
@@ -69,7 +69,7 @@ export function BugIndex() {
     const bugToSave = { ...bug, title, severity, desc }
     try {
 
-      const savedBug = await bugService.save(bugToSave)
+      const savedBug = await bugService.edit(bugToSave)
       console.log('Updated Bug:', savedBug)
       setBugs(prevBugs => prevBugs.map((currBug) =>
         currBug._id === savedBug._id ? savedBug : currBug

@@ -1,6 +1,8 @@
 import express from 'express'
 import fs from 'fs'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import path from 'path'
 
 import { bugService } from './services/bug.service.js'
 
@@ -18,6 +20,9 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(cookieParser())
+app.use(express.json())
+app.use(express.static('public'))
 
 app.get('/', (req, res) => res.send('Hello there'))
 
@@ -26,8 +31,14 @@ app.get('/api/bug', async (req, res) => {
     res.send(bugs)
 })
 
-app.get('/api/bug/save', async (req, res) => {
-    const bugs = await bugService.save(req.query)    
+app.post('/api/bug/', async (req, res) => {
+    const bugs = await bugService.add(req.body)    
+    res.send(bugs)
+})
+
+app.put('/api/bug/:bugId', async (req, res) => {
+    console.log(req.query)
+    const bugs = await bugService.edit(req.query)    
     res.send(bugs)
 })
 
@@ -39,7 +50,7 @@ app.get('/api/bug/:id', async (req, res) => {
     res.send(bug)
 })
 
-app.get('/api/bug/:bugId/remove', async (req, res) => {
+app.delete('/api/bug/:bugId', async (req, res) => {
     const bugId = req.params.id
     
     const bugs = await bugService.remove(bugId)
@@ -47,5 +58,9 @@ app.get('/api/bug/:bugId/remove', async (req, res) => {
     res.send('Removed Bug!')
 })
 
+
+//app.get('*all', (req, res) => {
+//    res.sendFile(path.resolve('public/index.html'))
+//})
 
 app.listen(3030, () => console.log('Server ready at port 3030'))

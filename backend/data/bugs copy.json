@@ -53,55 +53,15 @@
   {
     "_id": "uopgg",
     "title": "filter 4 up, but creating bug with sev 3, will it show?",
-    "severity": 2,
+    "severity": 3,
     "desc": "hopefully not",
     "createdAt": 1754170005520
   },
   {
-    "_id": "r6nkK",
-    "title": "hello",
-    "severity": 2,
-    "createdAt": 1755463242027
-  },
-  {
-    "_id": "UlprN",
-    "title": "yesyes",
-    "severity": 2,
-    "createdAt": 1755463344918
-  },
-  {
-    "_id": "fc1hE",
-    "title": "yesyesyes",
-    "severity": 5,
-    "desc": "yesyesyesyes",
-    "createdAt": 1755463423719
-  },
-  {
-    "_id": "Thqon",
-    "title": "null",
-    "severity": 0,
-    "desc": "null",
-    "createdAt": 1755463434272
-  },
-  {
-    "_id": "zeXkP",
-    "title": "null",
-    "severity": 0,
-    "desc": "null",
-    "createdAt": 1755463486727
-  },
-  {
-    "title": "H3ll0",
-    "severity": 2,
+    "_id": "Oia1i",
+    "title": "new buggg",
+    "severity": 4,
     "desc": "hello world",
-    "_id": "2z01n",
-    "createdAt": 1755576383280
-  },
-  {
-    "title": "yes",
-    "severity": 2,
-    "desc": "hello there",
-    "_id": "6bHkO",
-    "createdAt": 1755576435371
+    "createdAt": 1754170167448
   }
 ]
