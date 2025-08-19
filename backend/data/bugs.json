@@ -15,7 +15,7 @@
   {
     "_id": "786M9",
     "title": "a whole new bug",
-    "severity": 10,
+    "severity": 2,
     "createdAt": 1754161918450
   },
   {
@@ -77,31 +77,17 @@
     "createdAt": 1755463423719
   },
   {
-    "_id": "Thqon",
-    "title": "null",
-    "severity": 0,
-    "desc": "null",
-    "createdAt": 1755463434272
+    "title": "why are my bugs bugged",
+    "severity": 6,
+    "desc": "hello?",
+    "_id": "qETsl",
+    "createdAt": 1755584247431
   },
   {
-    "_id": "zeXkP",
-    "title": "null",
-    "severity": 0,
-    "desc": "null",
-    "createdAt": 1755463486727
-  },
-  {
-    "title": "H3ll0",
+    "title": "Dor",
     "severity": 2,
-    "desc": "hello world",
-    "_id": "2z01n",
-    "createdAt": 1755576383280
-  },
-  {
-    "title": "yes",
-    "severity": 2,
-    "desc": "hello there",
-    "_id": "6bHkO",
-    "createdAt": 1755576435371
+    "desc": "hello",
+    "_id": "0BwcP",
+    "createdAt": 1755598090501
   }
 ]

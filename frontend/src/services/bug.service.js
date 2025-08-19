@@ -5,7 +5,7 @@ var axios = Axios.create({
     withCredentials: true,
 })
 
-const BASE_URL = '//localhost:3030/api/bug/'
+const BASE_URL = '//localhost:3030/api/bug'
 
 export const bugService = {
     query,
@@ -46,10 +46,10 @@ async function add(bugToSave) {
 
 }
 
-async function edit(bug) {
-    console.log('my existing bug id is' + bug._id)
-    console.log(`${BASE_URL}/save?_id=${bug._id}&title=${bug.title}&severity=${bug.severity}&desc=${bug.desc}`)
+async function edit(bugToEdit) {
+    console.log('my existing bug id is' + bugToEdit._id)
 
-    const res = await axios.get(`${BASE_URL}/save?_id=${bug._id}&title=${bug.title}&severity=${bug.severity}&desc=${bug.desc}`)
+    //const res = await axios.get(`${BASE_URL}/save?_id=${bug._id}&title=${bug.title}&severity=${bug.severity}&desc=${bug.desc}`)
+    const res = await axios.put(BASE_URL, bugToEdit)
     return res.data
 }

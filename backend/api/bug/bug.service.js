@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { makeId, readJsonFile, writeJsonFile } from './util.service.js'
+import { makeId, readJsonFile, writeJsonFile } from '../../services/util.service.js'
 
 const bugs = readJsonFile('data/bugs.json')
 
@@ -52,13 +52,14 @@ async function add(queryObject){
 async function edit(queryObject){
     const { _id, title, severity, desc } = queryObject
     const bugToSave = { _id, title, severity: +severity, desc }
-    console.log(bugToSave)
+
+    console.log('Backend BugService: Trying to edit bug: ',bugToSave)
     const bug = bugs.find(bug => bug._id === bugToSave._id)
 
-    console.log('trying to edit bug')
     if (bugToSave.title) bug.title = bugToSave.title    //in case title wasnt passed, the api would not overwrite the title with a blank field
     if (bugToSave.severity) bug.severity = bugToSave.severity   //same as title but with severity
     if (bugToSave.desc) bug.desc = bugToSave.desc   //same as title but with desc
+    
     console.log('bug was edited')
     return _saveBugs()
 }

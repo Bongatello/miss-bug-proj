@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "u101",
+    "fullname": "Muki Ja",
+    "username": "muki",
+    "password": "muki1234",
+    "score": 100
+  },
+  {
+    "fullname": "First User",
+    "username": "firstusername",
+    "password": "firstpassword",
+    "score": 98,
+    "_id": "qYdZd"
+  },
+  {
+    "fullname": "Timmy Ham",
+    "username": "Timmyham",
+    "password": "Timmy123",
+    "score": 75,
+    "_id": "hB3ut"
+  },
+  {
+    "fullname": "New User",
+    "username": "NewUser",
+    "password": "NewUser1234",
+    "score": 32,
+    "_id": "j3P2o"
+  }
+]

@@ -63,9 +63,9 @@ export function BugIndex() {
   }
 
   async function onEditBug(bug) {
-    const title = prompt('New title? (keep blank if not needed')
+    const title = prompt('New title? (keep blank if not needed)')
     const severity = +prompt('New severity?')
-    const desc = prompt('Desc (keep blank if not needed')
+    const desc = prompt('Desc (keep blank if not needed)')
     const bugToSave = { ...bug, title, severity, desc }
     try {
 

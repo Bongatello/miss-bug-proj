@@ -4,8 +4,8 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import path from 'path'
 
-import { bugService } from './services/bug.service.js'
-
+import { bugRoutes } from './api/bug/bug.routes.js'
+import { userRoutes } from './api/user/user.routes.js'
 
 const app = express()
 
@@ -24,39 +24,11 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.static('public'))
 
+app.use(bugRoutes)
+app.use(userRoutes)
+
 app.get('/', (req, res) => res.send('Hello there'))
 
-app.get('/api/bug', async (req, res) => {
-    const bugs = await bugService.showAllBugs()
-    res.send(bugs)
-})
-
-app.post('/api/bug/', async (req, res) => {
-    const bugs = await bugService.add(req.body)    
-    res.send(bugs)
-})
-
-app.put('/api/bug/:bugId', async (req, res) => {
-    console.log(req.query)
-    const bugs = await bugService.edit(req.query)    
-    res.send(bugs)
-})
-
-app.get('/api/bug/:id', async (req, res) => {
-    const bugId = req.params.id
-    
-    const bug = await bugService.showBugId(bugId)
-
-    res.send(bug)
-})
-
-app.delete('/api/bug/:bugId', async (req, res) => {
-    const bugId = req.params.id
-    
-    const bugs = await bugService.remove(bugId)
-
-    res.send('Removed Bug!')
-})
 
 
 //app.get('*all', (req, res) => {
