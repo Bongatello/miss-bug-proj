@@ -13,14 +13,15 @@ export const bugService = {
     add,
     remove,
     edit,
+    getDefaultFilter,
 }
 
 
 
-async function query(filterBy) {
-    var { data: bugs } = await axios.get(BASE_URL)
+async function query(filterBy = {}) {
+    var { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
 
-    bugs = bugs.filter(bug => bug.severity>=filterBy)
+    bugs = bugs.filter(bug => bug.severity>filterBy.severity)
 
     return bugs
 }
@@ -52,4 +53,10 @@ async function edit(bugToEdit) {
     //const res = await axios.get(`${BASE_URL}/save?_id=${bug._id}&title=${bug.title}&severity=${bug.severity}&desc=${bug.desc}`)
     const res = await axios.put(BASE_URL, bugToEdit)
     return res.data
+}
+
+
+
+function getDefaultFilter() {
+    return { txt: '', severity: 0, labels: [],pageIdx: undefined }
 }

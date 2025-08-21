@@ -1,16 +1,17 @@
 import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect, useRef } from 'react'
+import { utilService } from '../services/util.service.js'
+import { BugFilter } from '../cmps/BugFilter.jsx'
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
-  const [filterBy, setFilterBy] = useState(0)
+  const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
 
   useEffect(() => {
     loadBugs()
-  }, [bugs, filterBy])
+  }, [bugs.length, filterBy])
 
   async function loadBugs() {
     const bugs = await bugService.query(filterBy)
@@ -19,13 +20,14 @@ export function BugIndex() {
 
 
   function increaseFilterBy() {
-
-    setFilterBy(filterBy + 1)
+    const severity = filterBy.severity + 1
+    setFilterBy(prevFilter => ({...prevFilter, severity}))
 
   }
 
   function decreaseFilterBy() {
-    if (filterBy>0)   setFilterBy(filterBy - 1)
+    const severity = filterBy.severity - 1
+    if (filterBy.severity>0)   setFilterBy(prevFilter => ({...prevFilter, severity}))
   }
 
 
@@ -86,11 +88,7 @@ export function BugIndex() {
       <h3>Bugs App</h3>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
-        <div>
-          <button onClick={increaseFilterBy}>+1</button>
-          <p>Showing only severities higher than: {filterBy}</p>
-          <button onClick={decreaseFilterBy}>-1</button>
-        </div>
+        <BugFilter filterBy={filterBy} increaseFilterBy={increaseFilterBy} decreaseFilterBy={decreaseFilterBy}/>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
     </main>
