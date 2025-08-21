@@ -6,7 +6,7 @@ export async function getAllUsers (req, res) {
 }
 
 export async function getUserById(req, res) {
-    const userId = req.params.id
+    const userId = req.params.userId
     const user = await userService.showUserId(userId)
     res.send(user)
 }
@@ -22,7 +22,7 @@ export async function updateUser(req, res) {
 }
 
 export async function deleteUser(req, res) {
-    const userId = req.params.id
+    const userId = req.params.userId
     const users = await userService.remove(userId)
     res.send('Removed User!')
 }

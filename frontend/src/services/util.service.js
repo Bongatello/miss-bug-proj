@@ -2,7 +2,8 @@ export const utilService = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
-    throttle
+    throttle,
+    debounce
 }
 
 function makeId(length = 6) {
@@ -43,3 +44,16 @@ function throttle(func, wait) {
         }, wait)
     }
 }
+
+function debounce(func, wait) {
+    let timeoutId
+    return (...args) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+            func(...args)
+        }, wait)
+    }
+}
+
+
+

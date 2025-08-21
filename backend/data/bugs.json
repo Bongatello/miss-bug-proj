@@ -77,38 +77,45 @@
     "createdAt": 1755463423719
   },
   {
-    "title": "why are my bugs bugged",
-    "severity": 6,
-    "desc": "hello?",
-    "_id": "qETsl",
-    "createdAt": 1755584247431
+    "title": "1",
+    "severity": 1,
+    "desc": "1",
+    "_id": "Zf69u",
+    "createdAt": 1755761344262
   },
   {
-    "title": "Dor",
+    "title": "2",
     "severity": 2,
-    "desc": "hello",
-    "_id": "0BwcP",
-    "createdAt": 1755598090501
+    "desc": "2",
+    "_id": "GCMFE",
+    "createdAt": 1755761347765
   },
   {
-    "title": "newest bug",
-    "severity": 2,
-    "desc": "yes",
-    "_id": "HT14P",
-    "createdAt": 1755715700692
-  },
-  {
-    "title": "hellobug",
+    "title": "3",
     "severity": 3,
-    "desc": "yes",
-    "_id": "npXvH",
-    "createdAt": 1755715741436
+    "desc": "3",
+    "_id": "73tbK",
+    "createdAt": 1755761409697
   },
   {
-    "title": "helloest bug",
-    "severity": 20,
-    "desc": "yesyseyes",
-    "_id": "ZLd58",
-    "createdAt": 1755715764846
+    "title": "4",
+    "severity": 4,
+    "desc": "4",
+    "_id": "YqRjq",
+    "createdAt": 1755761412170
+  },
+  {
+    "title": "5",
+    "severity": 5,
+    "desc": "5",
+    "_id": "AyEE2",
+    "createdAt": 1755762227929
+  },
+  {
+    "title": "5",
+    "severity": 5,
+    "desc": "5",
+    "_id": "37lLs",
+    "createdAt": 1755762336188
   }
 ]

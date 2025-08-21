@@ -3,42 +3,62 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { useState, useEffect, useRef } from 'react'
 import { utilService } from '../services/util.service.js'
-import { BugFilter } from '../cmps/BugFilter.jsx'
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
+  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 400)).current
+
+  const { txt, minSpeed } = filterByToEdit
+
 
   useEffect(() => {
     loadBugs()
   }, [bugs.length, filterBy])
+
+  useEffect(() => {
+    onSetFilterByDebounce(filterByToEdit)
+  }, [filterByToEdit])
+
 
   async function loadBugs() {
     const bugs = await bugService.query(filterBy)
     setBugs(bugs)
   }
 
+  function handleChange({ target }) {
+    const field = target.name
+    let value = target.value
+    setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+  }
+  function onSetFilterBy(filterBy) {
+    setFilterBy(prevFilter => {
+      let pageIdx = undefined
+      if (prevFilter.pageIdx !== undefined) pageIdx = 0
+      return { ...prevFilter, ...filterBy, pageIdx }
+      })
+    }
 
-  function increaseFilterBy() {
+
+
+
+  function increaseSeverityFilter() {
     const severity = filterBy.severity + 1
     setFilterBy(prevFilter => ({...prevFilter, severity}))
 
   }
 
-  function decreaseFilterBy() {
+  function decreaseSeverityFilter() {
     const severity = filterBy.severity - 1
     if (filterBy.severity>0)   setFilterBy(prevFilter => ({...prevFilter, severity}))
   }
 
-
-  async function onSetFilterBy(newFilter) {
-    console.log('newFilter')
-  }
-
   async function onRemoveBug(bugId) {
     try {
+      console.log('bugindex: removing ', bugId)
       await bugService.remove(bugId)
-      console.log('Deleted Succesfully!')
+      console.log(bugId, ' Deleted Succesfully!')
       setBugs(prevBugs => prevBugs.filter((bug) => bug._id !== bugId))
       showSuccessMsg('Bug removed')
     } catch (err) {
@@ -88,7 +108,14 @@ export function BugIndex() {
       <h3>Bugs App</h3>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
-        <BugFilter filterBy={filterBy} increaseFilterBy={increaseFilterBy} decreaseFilterBy={decreaseFilterBy}/>
+        <div className='severity-filter'>
+          <button onClick={increaseSeverityFilter}>+1</button>
+          <p>Showing only severities higher than: {filterBy.severity}</p>
+          <button onClick={decreaseSeverityFilter}>-1</button>
+        </div>
+        <div>
+          <input type='text' placeholder='Filter by text' value={txt} name='txt' onChange={handleChange}></input>
+        </div>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
     </main>

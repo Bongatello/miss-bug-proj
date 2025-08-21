@@ -10,7 +10,7 @@ router.post('/api/bug/', addBug)
 
 router.put('/api/bug/', updateBug)
 
-router.get('/api/bug/:id', getBugById)
+router.get('/api/bug/:bugId', getBugById)
 
 router.delete('/api/bug/:bugId', deleteBug)
 

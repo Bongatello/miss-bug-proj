@@ -21,8 +21,12 @@ export const bugService = {
 async function query(filterBy = {}) {
     var { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
 
-    bugs = bugs.filter(bug => bug.severity>filterBy.severity)
-
+    if (filterBy.severity) bugs = bugs.filter(bug => bug.severity>filterBy.severity)
+    
+    if (filterBy.txt) {
+        const regExp = new RegExp(filterBy.txt, 'i')
+        bugs = bugs.filter(bug => regExp.test(bug.title))
+    }
     return bugs
 }
 
@@ -34,6 +38,7 @@ async function getById(bugId) {
 
 
 async function remove(bugId) {
+    console.log('front bug service: removing bug - ', bugId)
     const res = await axios.delete(`${BASE_URL}/${bugId}`)
     return res.data
 }
