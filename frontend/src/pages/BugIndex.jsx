@@ -8,19 +8,25 @@ export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const [filterByLabels, setFilterByLabels] = useState([])
   const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 400)).current
-
+  const [bugLabels, setBugLabels] = useState([])
   const { txt, minSpeed } = filterByToEdit
-
+  const filterBugLabels = []
 
   useEffect(() => {
     loadBugs()
+    getNewLabels()
   }, [bugs.length, filterBy])
 
   useEffect(() => {
     onSetFilterByDebounce(filterByToEdit)
   }, [filterByToEdit])
 
+  async function getNewLabels() {
+    const newBugLabels = await bugService.getBugLabels()
+    setBugLabels(newBugLabels)
+  }
 
   async function loadBugs() {
     const bugs = await bugService.query(filterBy)
@@ -28,30 +34,57 @@ export function BugIndex() {
   }
 
   function handleChange({ target }) {
-    const field = target.name
-    let value = target.value
-    setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+    const { name, type, value, checked } = target
+  
+    if (type === "checkbox") {
+      if (value === "pagination") {
+        // will add pagination soon
+        return
+      }
+  
+      setFilterBy(prev => {
+        const prevLabels = prev.labels || []
+        let newLabels
+  
+        if (checked) {
+          newLabels = prevLabels.includes(value)
+            ? prevLabels
+            : [...prevLabels, value]
+        } else {
+          newLabels = prevLabels.filter(label => label !== value)
+        }
+  
+        return { ...prev, labels: newLabels }
+      })
+    } 
+    
+    else if (type === "text") {
+      setFilterBy(prev => ({ ...prev, [name]: value }))
+    } 
+    
+    else {
+      console.warn("Unhandled input type:", type)
+    }
   }
+
   function onSetFilterBy(filterBy) {
     setFilterBy(prevFilter => {
       let pageIdx = undefined
       if (prevFilter.pageIdx !== undefined) pageIdx = 0
       return { ...prevFilter, ...filterBy, pageIdx }
-      })
-    }
-
-
+    })
+  }
 
 
   function increaseSeverityFilter() {
     const severity = filterBy.severity + 1
-    setFilterBy(prevFilter => ({...prevFilter, severity}))
+    setFilterBy(prevFilter => ({ ...prevFilter, severity }))
 
   }
 
   function decreaseSeverityFilter() {
     const severity = filterBy.severity - 1
-    if (filterBy.severity>0)   setFilterBy(prevFilter => ({...prevFilter, severity}))
+    if (filterBy.severity > 0) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
   }
 
   async function onRemoveBug(bugId) {
@@ -68,10 +101,20 @@ export function BugIndex() {
   }
 
   async function onAddBug() {
+    var idx = 0 // idx starts with 0
     const bugToSave = {
       title: prompt('Bug title?'),
       severity: +prompt('Bug severity?'),
       desc: prompt('Bug description'),
+      labels: [prompt('Bug Label?')],
+    }
+    if (bugToSave.labels.length > 0) idx = idx + 1
+    while (bugToSave.labels.length >= idx) {
+      var anotherLabel = prompt('Another Label?')
+      idx = idx + 1
+      if (anotherLabel !== '') {
+        bugToSave.labels.push(anotherLabel)
+      }
     }
     try {
       const savedBug = await bugService.add(bugToSave)
@@ -113,8 +156,16 @@ export function BugIndex() {
           <p>Showing only severities higher than: {filterBy.severity}</p>
           <button onClick={decreaseSeverityFilter}>-1</button>
         </div>
-        <div>
-          <input type='text' placeholder='Filter by text' value={txt} name='txt' onChange={handleChange}></input>
+        <div className='text-filter'>
+          <input type='text' placeholder='Filter by text' value={filterBy.txt} name='txt' onChange={handleChange}></input>
+        </div>
+        <div className='label-filter'>
+          {bugLabels.map(label => (
+            <section>
+            <input type="checkbox" value={label} onChange={handleChange} name='labels'></input>
+            <p>{label}</p>
+            </section>
+          ))}
         </div>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>

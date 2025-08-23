@@ -53,9 +53,9 @@ async function edit(queryObject){
     console.log('Backend UserService: Trying to edit user: ',userToSave)
     const user = users.find(user => user._id === userToSave._id)
 
-    if (userToSave.fullname) user.fullname = userToSave.fullname    //in case title wasnt passed, the api would not overwrite the title with a blank field
-    if (userToSave.score) user.score = userToSave.score   //same as title but with severity
-    if (userToSave.password) user.password = userToSave.password   //same as title but with desc
+    if (userToSave.fullname) user.fullname = userToSave.fullname    
+    if (userToSave.score) user.score = userToSave.score   
+    if (userToSave.password) user.password = userToSave.password   
     
     console.log('user was edited')
     return _saveUsers()

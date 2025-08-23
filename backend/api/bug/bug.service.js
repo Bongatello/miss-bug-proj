@@ -7,12 +7,34 @@ export const bugService = {
     showBugId,
     add,
     remove,
-    showAllBugs,
+    showQueriedBugs,
     edit,
+    setBugLabels,
 }
 
-async function showAllBugs() {
-    return bugs
+async function showQueriedBugs(queryParams) {
+
+    let afterFilterBugs = bugs
+    let selected = []
+
+    if (queryParams.txt){
+        const regExp = new RegExp(queryParams.txt, 'i')
+        afterFilterBugs = afterFilterBugs.filter(bug => regExp.test(bug.title))
+    }
+
+    if (queryParams.severity) afterFilterBugs = afterFilterBugs.filter(bug => bug.severity>queryParams.severity)
+
+    if (queryParams.labels) {
+        selected = queryParams.labels.split(",").map(s => s.trim())
+        afterFilterBugs = afterFilterBugs.filter(bug =>
+            selected.some(label => bug.labels.includes(label))
+          )
+    }
+
+      
+    
+
+    return afterFilterBugs
 }
 
 async function showBugId(bugId){
@@ -35,8 +57,8 @@ async function remove(bugId) {
 }
 
 async function add(queryObject){
-    const { title, severity, desc } = queryObject
-    const bugToSave = { title, severity: +severity, desc }
+    const { title, severity, desc, labels} = queryObject
+    const bugToSave = { title, severity: +severity, desc, labels }
     console.log(bugToSave)
 
     console.log('trying to add bug')
@@ -64,6 +86,18 @@ async function edit(queryObject){
     return _saveBugs()
 }
 
+
+async function setBugLabels() {
+    let bugLabels = []
+    const bugList = bugs
+    const labeledBugs = bugList.filter(bug => bug.labels.length > 0)
+    for(let idx = 0; idx<labeledBugs.length; idx+1) {
+        bugLabels.push(...labeledBugs[idx].labels)
+        idx++
+    }
+    bugLabels = [...new Set(bugLabels)]
+    return bugLabels
+}
 
 
 function _saveBugs() {

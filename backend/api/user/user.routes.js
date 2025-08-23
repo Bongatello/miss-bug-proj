@@ -10,7 +10,7 @@ router.post('/api/user/', addUser)
 
 router.put('/api/user/', updateUser)
 
-router.get('/api/user/:id', getUserById)
+router.get('/api/user/:userId', getUserById)
 
 router.delete('/api/user/:userId', deleteUser)
 

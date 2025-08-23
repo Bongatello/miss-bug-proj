@@ -1,121 +1,58 @@
 [
   {
-    "_id": "7c7az",
-    "title": "great bug",
-    "severity": 2,
-    "createdAt": 1754161378979
-  },
-  {
-    "_id": "vYWt4",
-    "title": "Fresher Bug",
-    "severity": 6,
-    "createdAt": 1754161398453,
-    "desc": "I was a fresh bug at the beginning!"
-  },
-  {
-    "_id": "786M9",
-    "title": "a whole new bug",
-    "severity": 2,
-    "createdAt": 1754161918450
-  },
-  {
-    "_id": "F11Wu",
-    "title": "small bug",
-    "severity": 5,
-    "createdAt": 1754166490781
-  },
-  {
-    "_id": "f0OPk",
-    "title": "bug with desc",
-    "severity": 2,
-    "createdAt": 1754166757031
-  },
-  {
-    "_id": "l8sqd",
-    "title": "bug with desc v2",
-    "severity": 3,
-    "desc": "undefined",
-    "createdAt": 1754167001754
-  },
-  {
-    "_id": "xe6BS",
-    "title": "bug with desc v3",
+    "title": "bug with labels",
     "severity": 10,
-    "createdAt": 1754167081336
+    "desc": "none",
+    "labels": [
+      "hello",
+      "world"
+    ],
+    "_id": "cWFlP",
+    "createdAt": 1755855254279
   },
   {
-    "_id": "1S1XT",
-    "title": "i forgot to save last time",
+    "title": "another bug with labels",
     "severity": 2,
-    "desc": "now does it work?",
-    "createdAt": 1754167110894
+    "desc": "description?",
+    "labels": [
+      "hard",
+      "easy-fix",
+      "nah"
+    ],
+    "_id": "9PyIE",
+    "createdAt": 1755860205378
   },
   {
-    "_id": "uopgg",
-    "title": "filter 4 up, but creating bug with sev 3, will it show?",
+    "title": "can i add only one label?",
     "severity": 2,
-    "desc": "hopefully not",
-    "createdAt": 1754170005520
+    "desc": "hopefully yes",
+    "labels": [
+      "only-label"
+    ],
+    "_id": "hv2us",
+    "createdAt": 1755860226777
   },
   {
-    "_id": "r6nkK",
-    "title": "hello",
-    "severity": 2,
-    "createdAt": 1755463242027
-  },
-  {
-    "_id": "UlprN",
-    "title": "yesyes",
-    "severity": 2,
-    "createdAt": 1755463344918
-  },
-  {
-    "_id": "fc1hE",
-    "title": "yesyesyes",
+    "title": "hello bug",
     "severity": 5,
-    "desc": "yesyesyesyes",
-    "createdAt": 1755463423719
+    "desc": "bug desc",
+    "labels": [
+      "yes",
+      "easy-fix",
+      "nah"
+    ],
+    "_id": "DsVKj",
+    "createdAt": 1755875135596
   },
   {
-    "title": "1",
-    "severity": 1,
-    "desc": "1",
-    "_id": "Zf69u",
-    "createdAt": 1755761344262
-  },
-  {
-    "title": "2",
-    "severity": 2,
-    "desc": "2",
-    "_id": "GCMFE",
-    "createdAt": 1755761347765
-  },
-  {
-    "title": "3",
-    "severity": 3,
-    "desc": "3",
-    "_id": "73tbK",
-    "createdAt": 1755761409697
-  },
-  {
-    "title": "4",
-    "severity": 4,
-    "desc": "4",
-    "_id": "YqRjq",
-    "createdAt": 1755761412170
-  },
-  {
-    "title": "5",
-    "severity": 5,
-    "desc": "5",
-    "_id": "AyEE2",
-    "createdAt": 1755762227929
-  },
-  {
-    "title": "5",
-    "severity": 5,
-    "desc": "5",
-    "_id": "37lLs",
-    "createdAt": 1755762336188
+    "title": "dor",
+    "severity": 10,
+    "desc": "dor ze bug meod lo tov",
+    "labels": [
+      "hard bug",
+      "needs fix"
+    ],
+    "_id": "FHxIi",
+    "createdAt": 1755875254234
   }
 ]

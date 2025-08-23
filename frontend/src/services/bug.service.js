@@ -14,19 +14,18 @@ export const bugService = {
     remove,
     edit,
     getDefaultFilter,
+    getBugLabels,
 }
 
 
 
-async function query(filterBy = {}) {
-    var { data: bugs } = await axios.get(BASE_URL, { params: filterBy })
-
-    if (filterBy.severity) bugs = bugs.filter(bug => bug.severity>filterBy.severity)
-    
-    if (filterBy.txt) {
-        const regExp = new RegExp(filterBy.txt, 'i')
-        bugs = bugs.filter(bug => regExp.test(bug.title))
-    }
+async function query(filterBy) {
+    console.log('query: ',filterBy.labels)
+    var { data: bugs } = await axios.get(BASE_URL, { params: {
+        txt: filterBy.txt,
+        severity: filterBy.severity,
+        labels: filterBy.labels.join(',')
+    } })
     return bugs
 }
 
@@ -64,4 +63,10 @@ async function edit(bugToEdit) {
 
 function getDefaultFilter() {
     return { txt: '', severity: 0, labels: [],pageIdx: undefined }
+}
+
+
+async function getBugLabels() {
+    const res = await axios.get('//localhost:3030/api/bugLabels')
+    return res.data
 }
