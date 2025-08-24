@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { makeId, readJsonFile, writeJsonFile } from '../../services/util.service.js'
 
+
 const users = readJsonFile('data/users.json')
 
 export const userService = {
@@ -65,4 +66,9 @@ async function edit(queryObject){
 
 function _saveUsers() {
     return writeJsonFile('data/users.json', users)
+}
+
+
+async function cookieTest(){
+    
 }

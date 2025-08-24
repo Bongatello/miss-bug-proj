@@ -15,6 +15,7 @@ export const bugService = {
     edit,
     getDefaultFilter,
     getBugLabels,
+    checkIfLimited,
 }
 
 
@@ -30,8 +31,15 @@ async function query(filterBy, sortByValue) {
     return bugs
 }
 
+async function checkIfLimited() {
+    const userLimit = await axios.get(`//localhost:3030/api/cookies`)
+
+    return userLimit
+    
+}
 
 async function getById(bugId) {
+    await axios.get(`//localhost:3030/api/cookies/${bugId}`)
     const res = await axios.get(`${BASE_URL}/${bugId}`)
     return res.data
 }

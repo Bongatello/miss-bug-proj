@@ -66,7 +66,7 @@ export function BugFilter ({filterBy, setFilterBy, bugLabels}) {
             </div>
             <div className='label-filter'>
                 {bugLabels.map(label => (
-                    <section>
+                    <section key={label}>
                         <input type="checkbox" value={label} onChange={handleChange} name='labels'></input>
                         <p>{label}</p>
                     </section>

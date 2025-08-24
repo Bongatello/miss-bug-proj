@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom'
 import { BugPreview } from './BugPreview'
+import { bugService } from '../services/bug.service'
 
 export function BugList({ bugs, onRemoveBug, onEditBug }) {
   return (
@@ -24,7 +25,8 @@ export function BugList({ bugs, onRemoveBug, onEditBug }) {
               Edit
             </button>
           </div>
-          <Link to={`/bug/${bug._id}`}>Details</Link>
+          
+          <Link to={bugService.checkIfLimited() ? "/limited" : `/bug/${bug._id}`}>Details</Link>
         </li>
       ))}
     </ul>

@@ -23,6 +23,35 @@ export async function updateUser(req, res) {
 
 export async function deleteUser(req, res) {
     const userId = req.params.userId
-    const users = await userService.remove(userId)
+    await userService.remove(userId)
     res.send('Removed User!')
+}
+
+export async function checkIfLimited(req, res) {
+    let visitedBugs = req.cookies.visitedBugs || []
+    if (visitedBugs.length>2) res.send(true)
+    
+    else res.send(false)
+}
+
+export async function addBugToCookies(req, res) {
+    let visitedBugs = req.cookies.visitedBugs || []
+    const visitedBug = req.params.bugId
+
+    if (visitedBugs.length>2) res.send(1)
+
+    if (!visitedBugs.includes(visitedBug)) {
+        visitedBugs.push(visitedBug)
+
+        res.cookie('visitedBugs', visitedBugs)
+        console.log('added a visited bug, visitedBugs: ', visitedBugs)
+    }
+
+    if (visitedBugs.includes(null)) {
+        const idx = visitedBugs.indexOf(null)
+        visitedBugs.splice(idx, 1)
+        res.cookie('visitedBugs', visitedBugs)
+    }
+
+    res.send(`<h1>Visited Bugs: ${visitedBugs}`)
 }

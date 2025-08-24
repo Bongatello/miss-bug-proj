@@ -8,6 +8,7 @@ import { UserIndex } from './pages/UserIndex.jsx'
 import { UserDetails } from './pages/UserDetails.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { Route, HashRouter as Router, Routes } from 'react-router-dom'
+import { Limited } from './pages/Limited.jsx'
 
 export function App() {
   return (
@@ -22,6 +23,7 @@ export function App() {
             <Route path='/user' element={<UserIndex/>}/>
             <Route path='/user/:userId' element={<UserDetails/>}/>
             <Route path='/about' element={<AboutUs />} />
+            <Route path='/limited' element={<Limited/>} />
           </Routes>
         </main>
         <AppFooter />
