@@ -2,91 +2,34 @@ import { bugService } from '../services/bug.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { useState, useEffect, useRef } from 'react'
-import { utilService } from '../services/util.service.js'
+import { BugSort } from '../cmps/BugSort.jsx'
+import { BugFilter } from '../cmps/BugFilter.jsx'
 
 export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
   const [sortByValue, setSortByValue] = useState('date')
-  const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 400)).current
   const [bugLabels, setBugLabels] = useState([])
-  const { txt, minSpeed } = filterByToEdit
-  const filterBugLabels = []
 
   useEffect(() => {
     loadBugs()
     getNewLabels()
   }, [bugs.length, filterBy, sortByValue])
 
-  useEffect(() => {
-    onSetFilterByDebounce(filterByToEdit)
-  }, [filterByToEdit])
-
+  //Update Label List (Checkboxes)
   async function getNewLabels() {
     const newBugLabels = await bugService.getBugLabels()
     setBugLabels(newBugLabels)
   }
 
+  //CRUDL (List)
+  //Load Bugs After Updates (on useEffect, according to the side-effects)
   async function loadBugs() {
     const bugs = await bugService.query(filterBy, sortByValue)
     setBugs(bugs)
   }
 
-  function handleChange({ target }) {
-    const { name, type, value, checked } = target
-  
-    if (type === "checkbox") {
-      if (value === "pagination") {
-        // will add pagination soon
-        return
-      }
-  
-      setFilterBy(prev => {
-        const prevLabels = prev.labels || []
-        let newLabels
-  
-        if (checked) {
-          newLabels = prevLabels.includes(value)
-            ? prevLabels
-            : [...prevLabels, value]
-        } else {
-          newLabels = prevLabels.filter(label => label !== value)
-        }
-  
-        return { ...prev, labels: newLabels }
-      })
-    } 
-    
-    else if (type === "text") {
-      setFilterBy(prev => ({ ...prev, [name]: value }))
-    } 
-    
-    else {
-      console.warn("Unhandled input type:", type)
-    }
-  }
-
-  function onSetFilterBy(filterBy) {
-    setFilterBy(prevFilter => {
-      let pageIdx = undefined
-      if (prevFilter.pageIdx !== undefined) pageIdx = 0
-      return { ...prevFilter, ...filterBy, pageIdx }
-    })
-  }
-
-
-  function changeSeverityFilter(change) {
-    const severity = filterBy.severity + change
-    if (filterBy.severity>0) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
-    else if (filterBy.severity===0 && change === 1) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
-  }
-
-  async function sortBugs(sortBy) {
-    setSortByValue(sortBy)
-  }
-
-
+  //CRUDL (Delete)
   async function onRemoveBug(bugId) {
     try {
       console.log('bugindex: removing ', bugId)
@@ -100,6 +43,7 @@ export function BugIndex() {
     }
   }
 
+  //CRUDL (Create)
   async function onAddBug() {
     var idx = 0 // idx starts with 0
     const bugToSave = {
@@ -127,6 +71,7 @@ export function BugIndex() {
     }
   }
 
+  ////CRUDL (Update)
   async function onEditBug(bug) {
     const title = prompt('New title? (keep blank if not needed)')
     const severity = +prompt('New severity?')
@@ -151,28 +96,8 @@ export function BugIndex() {
       <h3>Bugs App</h3>
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
-        <div className='severity-filter'>
-          <button onClick={() => changeSeverityFilter(1)}>+1</button>
-          <p>Showing only severities higher than: {filterBy.severity}</p>
-          <button onClick={() => changeSeverityFilter(-1)}>-1</button>
-        </div>
-        <div className='text-filter'>
-          <input type='text' placeholder='Filter by text' value={filterBy.txt} name='txt' onChange={handleChange}></input>
-        </div>
-        <div className='label-filter'>
-          {bugLabels.map(label => (
-            <section>
-            <input type="checkbox" value={label} onChange={handleChange} name='labels'></input>
-            <p>{label}</p>
-            </section>
-          ))}
-        </div>
-        <div className='sortby-list'>
-          Sort Bugs By:
-          <button onClick={() => sortBugs('text')}>text</button>
-          <button onClick={() => sortBugs('severity')}>severity</button>
-          <button onClick={() => sortBugs('date')}>date</button>
-        </div>
+        <BugFilter filterBy={filterBy} setFilterBy={setFilterBy} bugLabels={bugLabels}/>
+        <BugSort setSortByValue={setSortByValue} />
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>
     </main>
