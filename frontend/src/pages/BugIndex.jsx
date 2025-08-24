@@ -8,7 +8,7 @@ export function BugIndex() {
   const [bugs, setBugs] = useState([])
   const [filterBy, setFilterBy] = useState(bugService.getDefaultFilter())
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-  const [filterByLabels, setFilterByLabels] = useState([])
+  const [sortByValue, setSortByValue] = useState('date')
   const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 400)).current
   const [bugLabels, setBugLabels] = useState([])
   const { txt, minSpeed } = filterByToEdit
@@ -17,7 +17,7 @@ export function BugIndex() {
   useEffect(() => {
     loadBugs()
     getNewLabels()
-  }, [bugs.length, filterBy])
+  }, [bugs.length, filterBy, sortByValue])
 
   useEffect(() => {
     onSetFilterByDebounce(filterByToEdit)
@@ -29,7 +29,7 @@ export function BugIndex() {
   }
 
   async function loadBugs() {
-    const bugs = await bugService.query(filterBy)
+    const bugs = await bugService.query(filterBy, sortByValue)
     setBugs(bugs)
   }
 
@@ -76,16 +76,16 @@ export function BugIndex() {
   }
 
 
-  function increaseSeverityFilter() {
-    const severity = filterBy.severity + 1
-    setFilterBy(prevFilter => ({ ...prevFilter, severity }))
-
+  function changeSeverityFilter(change) {
+    const severity = filterBy.severity + change
+    if (filterBy.severity>0) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
+    else if (filterBy.severity===0 && change === 1) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
   }
 
-  function decreaseSeverityFilter() {
-    const severity = filterBy.severity - 1
-    if (filterBy.severity > 0) setFilterBy(prevFilter => ({ ...prevFilter, severity }))
+  async function sortBugs(sortBy) {
+    setSortByValue(sortBy)
   }
+
 
   async function onRemoveBug(bugId) {
     try {
@@ -152,9 +152,9 @@ export function BugIndex() {
       <main>
         <button onClick={onAddBug}>Add Bug ⛐</button>
         <div className='severity-filter'>
-          <button onClick={increaseSeverityFilter}>+1</button>
+          <button onClick={() => changeSeverityFilter(1)}>+1</button>
           <p>Showing only severities higher than: {filterBy.severity}</p>
-          <button onClick={decreaseSeverityFilter}>-1</button>
+          <button onClick={() => changeSeverityFilter(-1)}>-1</button>
         </div>
         <div className='text-filter'>
           <input type='text' placeholder='Filter by text' value={filterBy.txt} name='txt' onChange={handleChange}></input>
@@ -166,6 +166,12 @@ export function BugIndex() {
             <p>{label}</p>
             </section>
           ))}
+        </div>
+        <div className='sortby-list'>
+          Sort Bugs By:
+          <button onClick={() => sortBugs('text')}>text</button>
+          <button onClick={() => sortBugs('severity')}>severity</button>
+          <button onClick={() => sortBugs('date')}>date</button>
         </div>
         <BugList bugs={bugs} onRemoveBug={onRemoveBug} onEditBug={onEditBug} />
       </main>

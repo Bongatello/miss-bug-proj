@@ -19,12 +19,13 @@ export const bugService = {
 
 
 
-async function query(filterBy) {
+async function query(filterBy, sortByValue) {
     console.log('query: ',filterBy.labels)
     var { data: bugs } = await axios.get(BASE_URL, { params: {
         txt: filterBy.txt,
         severity: filterBy.severity,
-        labels: filterBy.labels.join(',')
+        labels: filterBy.labels.join(','),
+        sortBy: sortByValue
     } })
     return bugs
 }
@@ -67,6 +68,6 @@ function getDefaultFilter() {
 
 
 async function getBugLabels() {
-    const res = await axios.get('//localhost:3030/api/bugLabels')
+    const res = await axios.get(`//localhost:3030/api/bugLabels`)
     return res.data
 }

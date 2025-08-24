@@ -13,26 +13,35 @@ export const bugService = {
 }
 
 async function showQueriedBugs(queryParams) {
-
+    const {txt, severity, labels, sortBy} = queryParams
     let afterFilterBugs = bugs
     let selected = []
 
-    if (queryParams.txt){
-        const regExp = new RegExp(queryParams.txt, 'i')
+    if (txt){
+        const regExp = new RegExp(txt, 'i')
         afterFilterBugs = afterFilterBugs.filter(bug => regExp.test(bug.title))
     }
 
-    if (queryParams.severity) afterFilterBugs = afterFilterBugs.filter(bug => bug.severity>queryParams.severity)
+    if (severity) afterFilterBugs = afterFilterBugs.filter(bug => bug.severity>severity)
 
-    if (queryParams.labels) {
-        selected = queryParams.labels.split(",").map(s => s.trim())
+    if (labels) {
+        selected = labels.split(",").map(s => s.trim())
         afterFilterBugs = afterFilterBugs.filter(bug =>
             selected.some(label => bug.labels.includes(label))
           )
     }
 
-      
-    
+    if (sortBy) {
+        if (sortBy === 'text') {
+            afterFilterBugs.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+        }
+        else if (sortBy === 'severity') {
+            afterFilterBugs.sort((a, b) => (a.severity > b.severity) ? -1 : ((b.severity > a.severity) ? 1 : 0))
+        }
+        else if (sortBy === 'date') {
+            afterFilterBugs.sort((a, b) => a.createdAt - b.createdAt)
+        }
+    }
 
     return afterFilterBugs
 }
@@ -88,15 +97,12 @@ async function edit(queryObject){
 
 
 async function setBugLabels() {
-    let bugLabels = []
-    const bugList = bugs
-    const labeledBugs = bugList.filter(bug => bug.labels.length > 0)
-    for(let idx = 0; idx<labeledBugs.length; idx+1) {
-        bugLabels.push(...labeledBugs[idx].labels)
-        idx++
-    }
-    bugLabels = [...new Set(bugLabels)]
-    return bugLabels
+    const bugLabels = [...new Set(
+        bugs
+            .filter(bug => bug.labels?.length > 0)
+            .flatMap(bug => bug.labels)
+    )];
+    return bugLabels;
 }
 
 

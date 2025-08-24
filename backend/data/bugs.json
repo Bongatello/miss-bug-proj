@@ -54,5 +54,15 @@
     ],
     "_id": "FHxIi",
     "createdAt": 1755875254234
+  },
+  {
+    "title": "zbrand new bug",
+    "severity": 99,
+    "desc": "yes",
+    "labels": [
+      "highest prio"
+    ],
+    "_id": "SItBN",
+    "createdAt": 1756028824019
   }
 ]
