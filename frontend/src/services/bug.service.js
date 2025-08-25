@@ -34,7 +34,7 @@ async function query(filterBy, sortByValue) {
 async function checkIfLimited() {
     const userLimit = await axios.get(`//localhost:3030/api/cookies`)
 
-    return userLimit
+    return userLimit.data
     
 }
 

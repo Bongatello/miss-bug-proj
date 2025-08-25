@@ -43,7 +43,7 @@ export async function addBugToCookies(req, res) {
     if (!visitedBugs.includes(visitedBug)) {
         visitedBugs.push(visitedBug)
 
-        res.cookie('visitedBugs', visitedBugs)
+        res.cookie('visitedBugs', visitedBugs, { maxAge: 5000 })
         console.log('added a visited bug, visitedBugs: ', visitedBugs)
     }
 
